@@ -50,7 +50,7 @@ function App() {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="mb-4 md:mb-0">
                 <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-emergency-red rounded-lg"></div>
+                  <div className="w-8 h-8 bg-linear-to-br from-blue-600 to-emergency-red rounded-lg"></div>
                   <span className="text-xl font-bold text-gray-900">MediQR</span>
                 </div>
                 <p className="text-gray-600 text-sm mt-1">
