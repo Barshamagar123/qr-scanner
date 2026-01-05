@@ -9,27 +9,40 @@ dotenv.config();
 
 const app = express();
 
-/* ---------- Middleware ---------- */
+// Middleware
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:3000"],
+  methods: ["GET", "POST"],
+  credentials: true,
+}));
 
-// Enable CORS for frontend
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"], // Vite frontend
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
-
-// Parse JSON
 app.use(express.json());
 
-/* ---------- Routes ---------- */
+// Routes
 app.use("/api/users", userRoutes);
-app.use("/api/qr", qrRoutes);
+app.use("/api/qr", qrRoutes); // Use qrRoutes
 
-/* ---------- Server ---------- */
+// Health check
+app.get("/health", (req, res) => {
+  res.json({ 
+    status: "OK", 
+    service: "QR System API",
+    time: new Date().toISOString()
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Internal server error" });
+});
+
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
   console.log(`🚀 Backend running on port ${PORT}`);
 });
